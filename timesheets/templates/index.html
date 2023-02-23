@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <title>Recann Commissions</title>
+</head>
+<body>
+
+
+
+<div class="container my-5">
+    <section id="steps">
+        <div class="text-center mb-5">
+            <span>Recann Portal</span>
+            <h2 class="font-weight-bold display-4" style="color:#243A6D">Create New <span style=" color: #E0184D">Commissions</span></h2>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="bg-light position-relative px-3 my-5">
+                    <div class="font-weight-bold circle text-white rounded-circle d-flex align-items-center justify-content-center mx-auto position-relative border border-white"
+                         style="width: 60px;height: 60px;top: -30px;border-width: 4px !important; background-color: #E0184D;  outline:none;">
+                        1
+                    </div>
+                    <div class="px-3 text-center pb-3">
+                        <h4>Upload Excel</h4>
+                        <p class="font-weight-light my-3">Select Timesheet Portal File</p>
+                        <form method="post">
+                            {% csrf_token %}
+                            <input style="background-color: #243A6D; color:white;border-radius: 5px; outline:none;" type="file" id="myFile" name="filename">
+                            <div style="margin-top:10px"></div>
+                            <button style="background-color: #E0184D; color:white;border-radius: 5px; outline:none;" type="submit" name="run_script">Upload</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="bg-light position-relative px-3 my-5">
+                    <div class="font-weight-bold circle text-white rounded-circle d-flex align-items-center justify-content-center mx-auto position-relative border border-white"
+                         style="width: 60px;height: 60px;top: -30px;border-width: 4px !important; background-color: #243A6D">
+                        2
+                    </div>
+                    <div class="px-3 text-center pb-3">
+                        <h4>Make Adjustments</h4>
+                        <a class="btn btn-primary btn-lg" style="background-color: #E0184D; color:white;border-radius: 5px; outline:none; padding:5px;"  href="http://127.0.0.1:8000/admin/timesheets/jobs/">Update New Jobs</a>
+                        <br>
+                        <div style="margin-top:10px"><p>The following require an employee to be assigned</p></div>
+
+                        <form id="contactForm" method="post">
+                        {% csrf_token %}
+                        {% for i in unnassiged  %}
+                        
+                        <div>
+                        
+
+                            <div style="height:2px; background-color: #243A6D;"></div>
+                        <div style="border-color: #E0184D; "><h1>{{i.name}}</h1>
+
+                            <div class="container px-5 my-5">
+                
+
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" id="consultant" aria-label="Consultant" name="{{i.tid}}_cons">
+                                               
+                                            <option selected value="Unassigned">Unassigned</option>
+                                            {% for c in consultants%}
+                                            <option value="{{c.employee}}">{{c.employee}} ({{c.commission}}%)</option>
+                                            {% endfor %}
+                                        </select>
+                                        <label for="consultant">Consultant</label>
+                                    </div>
+                                           <div class="form-floating mb-3">
+                                        <input class="form-control" id="" type="text" placeholder="%" data-sb-validations=""  name="{{i.tid}}_comm"/>
+                                        <label for="">Custom Commssion (leave as is for default)</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" id="marginShareConsultant" aria-label="Margin Share Consultant" name="{{i.tid}}_secc">
+                                            <option selected value="Unassigned">Unassigned</option>
+                                            {% for c in consultants%}
+                                            <option value="{{c.employee}}">{{c.employee}}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <label for="marginShareConsultant">Margin Share Consultant</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input class="form-control" id="" type="text" placeholder="%" data-sb-validations="" name="{{i.tid}}_marg" />
+                                        <label for="">%</label>
+                                    </div>
+                            
+                            
+                                    <div class="d-grid">
+                                        <button class="btn btn-primary btn-lg" style="background:#E0184D; border-style: none;" id="submit_changes" name="submit_changes" type="submit">Enter</button>
+                                    </div>
+
+                            </div>
+
+
+                        </div>
+                        <br style="height:3px; background-color: #243A6D;">
+                        </div>
+                        {% endfor %}
+
+                    </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="bg-light position-relative px-3 my-5">
+                    <div class="font-weight-bold circle text-white rounded-circle d-flex align-items-center justify-content-center mx-auto position-relative border border-white"
+                         style="width: 60px;height: 60px;top: -30px;border-width: 4px !important; background-color: #243A6D">
+                        3
+                    </div>
+                    <div class="px-3 text-center pb-3">
+                        <h4>Publish Commissions</h4>
+                        <p class="font-weight-light my-3">Publish the digital statments, if a user has any discrepencies they can feedback directly once these are closed the Pdfs will be published
+
+                        </p>
+
+                        <form id="selectmonth" method="post">
+                        {% csrf_token %}
+                            <select name="dt" id="dt">
+                                {% for d in dates  %}
+                                    <option value="{{d.date}}">{{d.date}}</option>
+                                {% endfor %}
+                            </select>
+                            <div style="height:20px;"></div>
+                            <button class="btn btn-primary btn-lg" style="background:#E0184D; border-style: none;"  name="select_month" type="submit">Confirm Month</button>
+                        </form>
+                        <form method="post">
+                            {% csrf_token %}
+                             <div style="margin-top:10px"></div>
+                            <a href="http://127.0.0.1:8000/stat" class="btn btn-primary btn-lg" style="background:#18e07c; border-style: none;" type="submit" name="">Export Timesheets</a>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>

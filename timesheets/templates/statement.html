@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+    <title>Statement</title>
+</head>
+<body>
+
+<div class="container-fluid container-lg pt-5 pb-4">
+    <div class="row g-4">
+       <div class="col-12 col-lg-9 col-xl-12">
+          <h5 class="mb-3" style="background-color:#243A6D; color:white; padding:10px">Commission Statement</h5>
+          <h5 class="mb-3" style="background-color: grey; color:white;outline:none; padding:10px">{{summary.employee_id}} <span> - {{users.0.commission_ts_week_commencing}}</span> <span style="float:right; font-size: 10px;"></span></h5>
+          <div class="table-responsive">
+
+
+
+             <table class="table border-top">
+                <tbody>
+
+                  <tr  style="background-color:#E0184D; color:white" >
+                     <td>Contractor</td>
+                     <td>Hours</td>
+                     <td class="">Gross</td>
+                     <td><span class="badge    ">Percentage %</span></td>
+                     <td style="color:white">
+                        <button style="color:white" class="btn btn-sm rounded-circle d-flex align-items-center p-1">
+                           <span  style="color:white"class="material-icons">£ Value</span>
+                        </button>
+                     </td>
+                  </tr>
+
+                    {% for user in users %}
+                    
+                   <tr>
+                      <td>{{user.candidate_name}}</td>
+                      <td>{{user.commission_total_hours|floatformat:2}}</td>
+                      <td class="">--</td>
+                      <td><span class="badge    ">{{user.commission_rate}} %</span></td>
+                      <td>
+                         <button class="btn btn-sm rounded-circle d-flex align-items-center p-1">
+                            <span class="">&#163;{{user.commission_gp_per_hour_gbp|floatformat:2}}</span>
+                         </button>
+                      </td>
+                   </tr>
+                   
+                 
+                   {% endfor %}
+                   <tr  style="background-color:#E0184D; color:white" >
+                     <td><div style="outline:none; padding:5px; "></div></td>
+                     <td>TOTAL</td>
+                     <td class=""></td>
+                     <td><span class="badge    ">Total: </span></td>
+                     <td style="color:white">
+                        <button style="color:white" class="btn btn-sm rounded-circle d-flex align-items-center p-1">
+                           <span  style="color:white; font-style: oblique;"class="">&#163;{{summary.total_comm_paid}}</span>
+                        </button>
+                     </td>
+                  </tr>
+                </tbody>
+             </table>
+          </div>
+      
